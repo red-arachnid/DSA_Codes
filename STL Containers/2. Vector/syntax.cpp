@@ -18,7 +18,7 @@ int main() {
     !}
     */
 
-    //* Essential Syntax:
+    //* Essential Syntax: from <vector> library
     vector<int> v1;                 // An empty vector of type int 
     vector<int> v2(5);              // A Vector with 5 elements, default value of 0
     vector<int> v3(5, 100);         // A Vector with 5 elements, all valued to 100
