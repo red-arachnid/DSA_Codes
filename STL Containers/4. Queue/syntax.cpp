@@ -21,7 +21,6 @@ int main() {
     q.push(10);                     // Adds 10 to the back
     q.push(20);                     // 10 - 20
     q.push(30);                     // 10 - 20 - 30
-    q.emplace(40);                  // 10 - 20 - 30 - 40
 
     q.front();                      // Give the first element of queue. (The first one to come out on pop)
     q.back();                       // Gives the last element of the queue. (The most recently added)
