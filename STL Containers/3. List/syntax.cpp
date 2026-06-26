@@ -46,7 +46,8 @@ int main() {
     l1.unique();                        // Removes CONSECUTIVE duplicates [Pair with sort() for a totally unique list]
     l1.merge(l2);                       // mergest two SORTED lists into one sorted list [l2 becoms empty]
     l1.splice(it, l2);                  // Moves all of l2 into l1 before position it -- O(1)! no copying, just relinks nodes
-
+    //! Splice has an overload for where it takes start and end iterator to move from l2.
+    //! Eg: l1.splice(it, l2, startIndex, endIndex) moves elements of l2 between start and endIndex before it of l1
 
     //! Erasing or Inserting a node in a list only invalidates the iterator to that specific erased node,
     //! every other iterator into list remvains valid. [Contrast to Vectors where every iterator after modification point is invalid]
