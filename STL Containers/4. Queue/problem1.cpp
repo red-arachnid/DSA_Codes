@@ -8,6 +8,7 @@ using namespace std;
 //! BFS Algorithm
 vector<int> bfsOrder(const vector<vector<int>>& adj, int start) {
     vector<int> result;
+    result.reserve(adj.size());
     vector<bool> visited(adj.size(), false);
     queue<int> q;
     q.push(start);
