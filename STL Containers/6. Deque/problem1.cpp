@@ -6,8 +6,48 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-int main() {
+vector<int> slidingWindowMaximum(const vector<int>& nums, const int k) {
+    vector<int> result;
+    result.reserve(nums.size());
 
+    deque<int> dq;
+    
+    for (int i = 0; i < nums.size(); i++) {
+        if (!dq.empty() && dq.front() < i - k + 1) {
+            dq.pop_front();
+        }
+
+        while (!dq.empty() && nums[dq.back()] < nums[i]) {
+            dq.pop_back();
+        }
+
+        dq.push_back(i);
+
+        if (i >= k - 1) {
+            result.push_back(nums[dq.front()]);
+        }
+    }
+
+    return result;
+}
+
+
+int main() {
+    vector<int> v1 = {1,3,-1,-3,5,3,6,7};
+    int k1 = 3;
+
+    vector<int> v2 = {4,3,2,1};
+    int k2 = 2;
+
+    for (int x : slidingWindowMaximum(v1, k1)) {
+        cout << x << "  ";
+    }
+    cout << "\n\n";
+
+    for (int x : slidingWindowMaximum(v2, k2)) {
+        cout << x << "  ";
+    }
+    cout << "\n\n";
 
     return 0;
 }
