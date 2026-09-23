@@ -7,73 +7,50 @@ using namespace std;
 
 class Dataset {
     multiset<int> lower, upper;
-    int count;
     
-
-public:
-    Dataset(): count(0) {}
-    int INSERT(int x) {
-        if (count == 0) {
-            lower.insert(x);
-            count++;
-            return x;
-        }
-
-        if (x > *lower.rbegin()) {
-            upper.insert(x);
-        }
-        else {
-            lower.insert(x);
-        }
-        count++;
-
-        for (auto it = lower.rbegin(); lower.size() > upper.size() + 1;) {
+    void rebalance() {
+        if (lower.size() > upper.size() + 1) {
+            auto it = prev(lower.end());
             upper.insert(*it);
-            lower.erase((++it).base());
-        }
-        for (auto it = upper.begin(); upper.size() > lower.size() + 1; it++) {
+            lower.erase(it);
+        } else if (upper.size() > lower.size()) {
+            auto it = upper.begin();
             lower.insert(*it);
             upper.erase(it);
-        }
-
-        // Calculate the median
-        if (count % 2 == 0) {
-            return (*lower.rbegin() + *upper.begin()) / 2;
-        }
-        else {
-            return (lower.size() > upper.size()) ? *lower.rbegin() : *upper.begin();
         }
     }
 
-    int DELETE(int x) {
-        if (count == 0) {
-            throw runtime_error("Dataset is empty");
+    int median() {
+        if ((lower.size() + upper.size()) % 2 == 1) {
+            return *lower.rbegin();
+        } else {
+            return (*lower.rbegin() + *upper.begin()) / 2;
         }
+    }
 
-        if (x > *lower.rbegin()) {
-            upper.erase(upper.find(x));
-        }
-        else {
-            lower.erase(lower.find(x));
-        }
-        count--;
+public:
+    int INSERT(int val) {
+        if (lower.empty() || val <= *lower.rbegin())
+            lower.insert(val);
+        else
+            upper.insert(val);
+        rebalance();
 
-        for (auto it = lower.rbegin(); lower.size() > upper.size() + 1;) {
-            upper.insert(*it);
-            lower.erase((++it).base());
-        }
-        for (auto it = upper.begin(); upper.size() > lower.size() + 1; it++) {
-            lower.insert(*it);
+        rebalance();
+        return median();
+    }
+
+    int DELETE(int val) {
+        if (val <= *lower.rbegin()) {
+            auto it = lower.find(val);
+            lower.erase(it);                
+        } else {
+            auto it = upper.find(val);
             upper.erase(it);
         }
 
-        // Calculate the median
-        if (count % 2 == 0) {
-            return (*lower.rbegin() + *upper.begin()) / 2;
-        }
-        else {
-            return (lower.size() > upper.size()) ? *lower.rbegin() : *upper.begin();
-        }
+        rebalance();
+        return median();
     }
 };
 
