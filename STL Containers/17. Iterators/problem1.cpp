@@ -5,9 +5,11 @@
 using namespace std;
 
 void rotateLeft(vector<int>& v, int k) {
+    k = k % v.size();
     rotate(v.begin(), v.begin()+k, v.end());
 }
 void rotateRight(vector<int>& v, int k) {
+    k = k % v.size();
     rotate(v.begin(), v.end()-k, v.end());
 }
 
